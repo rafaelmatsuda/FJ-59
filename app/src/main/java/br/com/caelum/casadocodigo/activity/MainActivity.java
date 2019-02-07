@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements LivrosDelegate {
         transaction.replace(R.id.frame_principal, listaLivrosFragment);
         transaction.commit();
 
-        new WebClient().getLivros();
+        new WebClient().getLivros(0,10);
 
         EventBus.getDefault().register(this);
         }
