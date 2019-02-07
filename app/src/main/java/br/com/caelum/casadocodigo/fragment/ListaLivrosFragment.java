@@ -27,6 +27,7 @@ import butterknife.ButterKnife;
 public class ListaLivrosFragment extends Fragment {
 
     private List<Livro> livros = new ArrayList<>();
+    private final int qtd = 10;
 
     @BindView(R.id.lista_livros)
     RecyclerView recyclerView;
@@ -50,15 +51,16 @@ public class ListaLivrosFragment extends Fragment {
 
 
 
-    public void populaListaCom(final List<Livro> livros) {
+    public void populaListaCom(final List<Livro> listalivros) {
         //        this.livros.clear();
-        this.livros.addAll(livros);
+
+        this.livros.addAll(listalivros);
         recyclerView.getAdapter().notifyDataSetChanged();
         recyclerView.addOnScrollListener(new EndlessListListener(){
 
             @Override
             protected void carregaMaisItens() {
-                new WebClient().getLivros(livros.size(), 10);
+                new WebClient().getLivros(livros.size(), qtd);
                 Toast.makeText(getContext(), "Carregando Livros...", Toast.LENGTH_SHORT).show();
             }
         });
