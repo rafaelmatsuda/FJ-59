@@ -8,8 +8,8 @@ public interface LivrosDelegate {
 
     public void lidaComLivroSelecionado(Livro livro);
 
-    public void lidaComSucesso(List<Livro> livros);
+    //public void lidaComSucesso(List<Livro> livros);
 
-    public void lidaComErro(Throwable erro);
+    //public void lidaComErro(Throwable erro);
 
 }

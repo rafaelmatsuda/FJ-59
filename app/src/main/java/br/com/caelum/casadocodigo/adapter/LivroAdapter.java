@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import br.com.caelum.casadocodigo.R;
@@ -49,6 +51,11 @@ public class LivroAdapter extends RecyclerView.Adapter {
 
         holder.nome.setText(livro.getNome());
 
+        Picasso.with(holder.foto.getContext())
+                .load(livro.getUrlFoto())
+                .placeholder(R.drawable.livro)
+                .into(holder.foto);
+
     }
 
     @Override
@@ -84,5 +91,8 @@ public class LivroAdapter extends RecyclerView.Adapter {
             delegate.lidaComLivroSelecionado(livro);
 
         }
+
+
+
     }
 }
