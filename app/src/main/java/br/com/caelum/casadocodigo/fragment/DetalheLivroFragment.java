@@ -11,14 +11,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import javax.inject.Inject;
+
 import br.com.caelum.casadocodigo.R;
+import br.com.caelum.casadocodigo.application.CasaDoCodigoApplication;
 import br.com.caelum.casadocodigo.modelo.Autor;
+import br.com.caelum.casadocodigo.modelo.Carrinho;
+import br.com.caelum.casadocodigo.modelo.Item;
 import br.com.caelum.casadocodigo.modelo.Livro;
+import br.com.caelum.casadocodigo.modelo.TipoDeCompra;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class DetalheLivroFragment extends Fragment {
 
@@ -54,6 +62,9 @@ public class DetalheLivroFragment extends Fragment {
 
     private Livro livro;
 
+    @Inject
+    Carrinho carrinho;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -66,7 +77,19 @@ public class DetalheLivroFragment extends Fragment {
         livro = (Livro) arguments.getSerializable("livro");
         populaCamposComLivro(livro);
 
+        CasaDoCodigoApplication app = (CasaDoCodigoApplication) getActivity().getApplication();
+        app.getComponent().inject(this);
+
+
         return  view;
+    }
+
+
+    @OnClick(R.id.detalhes_livro_comprar_fisico)
+    public void comprarFisico() {
+        Toast.makeText(getActivity(), "Livro adicionado ao carrinho!", Toast.LENGTH_SHORT).show();
+
+        carrinho.adiciona(new Item(livro, TipoDeCompra.FISICO));
     }
 
     private void populaCamposComLivro(Livro livro) {

@@ -7,8 +7,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
+import javax.inject.Inject;
+
 import br.com.caelum.casadocodigo.R;
 import br.com.caelum.casadocodigo.adapter.ItensAdapter;
+import br.com.caelum.casadocodigo.application.CasaDoCodigoApplication;
 import br.com.caelum.casadocodigo.modelo.Carrinho;
 import br.com.caelum.casadocodigo.modelo.Item;
 import butterknife.BindView;
@@ -23,15 +26,20 @@ public class CarrinhoActivity extends AppCompatActivity {
     @BindView(R.id.valor_carrinho)
     TextView valorTotal;
 
+    @Inject
+    Carrinho carrinho;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carrinho);
         ButterKnife.bind(this);
+
+        CasaDoCodigoApplication app = (CasaDoCodigoApplication) getApplication();
+        app.getComponent().inject(this);
     }
 
-    private Carrinho carrinho = new Carrinho();
-    public void carregaLista() {
+        public void carregaLista() {
         listaItens.setAdapter(new ItensAdapter(carrinho.getItens(), this));
         listaItens.setLayoutManager(new LinearLayoutManager(this));
 
