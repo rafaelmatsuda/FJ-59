@@ -5,7 +5,6 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.List;
 
 import br.com.caelum.casadocodigo.converter.LivroServiceConverterFactory;
-import br.com.caelum.casadocodigo.delegate.LivrosDelegate;
 import br.com.caelum.casadocodigo.event.LivroEvent;
 import br.com.caelum.casadocodigo.modelo.Livro;
 import retrofit2.Call;

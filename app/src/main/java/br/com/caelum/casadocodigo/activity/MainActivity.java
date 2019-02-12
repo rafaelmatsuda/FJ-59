@@ -4,16 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
-import java.io.Serializable;
-import java.util.List;
 
 import br.com.caelum.casadocodigo.R;
 import br.com.caelum.casadocodigo.delegate.LivrosDelegate;
@@ -23,9 +21,13 @@ import br.com.caelum.casadocodigo.fragment.ListaLivrosFragment;
 import br.com.caelum.casadocodigo.modelo.Livro;
 import br.com.caelum.casadocodigo.server.WebClient;
 
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
+
 public class MainActivity extends AppCompatActivity implements LivrosDelegate {
 
     private ListaLivrosFragment listaLivrosFragment;
+
+    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements LivrosDelegate {
         new WebClient().getLivros(0,10);
 
         EventBus.getDefault().register(this);
+
         }
 
     @Override
@@ -85,15 +88,30 @@ public class MainActivity extends AppCompatActivity implements LivrosDelegate {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         getMenuInflater().inflate(R.menu.main_menu, menu);
+
+        //menu.findItem(R.id.nome_usuario).setTitle(String.format("Olá, %s", firebaseAuth.getCurrentUser().getEmail()));
+
+
         return true;
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.vai_para_carrinho) {
             Intent vaiParaCarrinho = new Intent(this, CarrinhoActivity.class);
             startActivity(vaiParaCarrinho);
+        }
+
+        if (item.getItemId() == R.id.logout){
+            //Faz logout
+            firebaseAuth.signOut();
+            finish();
+            Intent voltaParaLogin = new Intent(this, LoginActivity.class);
+            startActivity(voltaParaLogin);
         }
 
         return true;
