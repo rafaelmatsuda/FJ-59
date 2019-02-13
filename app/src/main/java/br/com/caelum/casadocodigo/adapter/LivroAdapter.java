@@ -22,20 +22,23 @@ import butterknife.OnClick;
 public class LivroAdapter extends RecyclerView.Adapter {
 
     private List<Livro> livros;
+    private boolean singleItem = false;
 
-    public LivroAdapter(List<Livro> livros) {
+    public LivroAdapter(List<Livro> livros, boolean singleItem) {
 
         this.livros = livros;
+        this.singleItem = singleItem;
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         int tipoDeLayout = R.layout.item_livro_par;
-        if(viewType % 2 != 0){
-            tipoDeLayout = R.layout.item_livro_impar;
+        if(!singleItem){
+            if(viewType % 2 != 0){
+                tipoDeLayout = R.layout.item_livro_impar;
+            }
         }
-
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(tipoDeLayout, viewGroup, false);
 
 

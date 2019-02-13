@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,11 +40,15 @@ public class ListaLivrosFragment extends Fragment {
 
         ButterKnife.bind(this,view);
 
+        FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.getInstance();
 
+        boolean listType = remoteConfig.getBoolean("list_type_single_item");
 
-        recyclerView.setAdapter(new LivroAdapter(livros));
+        recyclerView.setAdapter(new LivroAdapter(livros, listType));
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+
 
         return view;
     }

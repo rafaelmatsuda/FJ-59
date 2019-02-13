@@ -2,13 +2,17 @@ package br.com.caelum.casadocodigo.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -29,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements LivrosDelegate {
 
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -43,6 +48,17 @@ public class MainActivity extends AppCompatActivity implements LivrosDelegate {
         new WebClient().getLivros(0,10);
 
         EventBus.getDefault().register(this);
+
+        final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.getInstance();
+        remoteConfig.setDefaults(R.xml.remote_config_defaults);
+        remoteConfig.fetch(15).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    remoteConfig.activateFetched();
+                }
+            }
+        });
 
         }
 
